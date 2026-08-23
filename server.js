@@ -18,12 +18,12 @@ app.get("/", (req, res) => {
   res.json({
     name: "Task API",
     version: "1.0",
-    endpoints: ["/tasks"],
+    endpoints: ["/health", "/tasks", "/tasks/:taskId", "/docs"],
   });
 });
 
 app.get("/health", (req, res) => {
-  res.json({status: "okey"});
+  res.json({status: "ok"});
 });
 
 app.get("/tasks", (req, res) => {
@@ -36,7 +36,7 @@ app.get("/tasks/:taskId", (req, res) => {
   const task = tasks.find((t) => t.id === taskId);
 
   if (!task) {
-    return res.status(404).json({error: "Task not found"});
+    return res.status(404).json({error: `Task ${taskId} not found`});
   }
   return res.json(task);
 });
@@ -44,7 +44,7 @@ app.get("/tasks/:taskId", (req, res) => {
 app.post("/tasks", (req, res) => {
   const {title} = req.body;
 
-  if (!title || title.trim() === "" || typeof title !== "string") {
+  if (typeof title !== "string" || title.trim() === "") {
     return res
       .status(400)
       .json({error: "Title is required and must be a non-empty string"});
@@ -66,7 +66,7 @@ app.put("/tasks/:taskId", (req, res) => {
   const task = tasks.find((t) => t.id === taskId);
 
   if (!task) {
-    return res.status(404).json({error: "Task not found"});
+    return res.status(404).json({error: `Task ${taskId} not found`});
   }
 
   if (title !== undefined) {
@@ -78,9 +78,8 @@ app.put("/tasks/:taskId", (req, res) => {
 
   if (done !== undefined) {
     if (typeof done !== "boolean") {
-      res.status(400).json({error: "Done must be a boolean"});
+      return res.status(400).json({error: "Done must be a boolean"});
     }
-
     task.done = done;
   }
 
@@ -92,7 +91,7 @@ app.delete("/tasks/:taskId", (req, res) => {
   const index = tasks.findIndex((t) => t.id === taskId);
 
   if (index === -1) {
-    return res.status(404).json({error: "Task not found"});
+    return res.status(404).json({error: `Task ${taskId} not found`});
   }
 
   tasks.splice(index, 1);
