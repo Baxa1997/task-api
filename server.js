@@ -37,4 +37,23 @@ app.get("/tasks/:taskId", (req, res) => {
   return res.json(task);
 });
 
+app.post("/tasks", (req, res) => {
+  const {title} = req.body;
+
+  if (!title || title.trim() === "" || typeof title !== "string") {
+    return res
+      .status(400)
+      .json({error: "Title is required and must be a non-empty string"});
+  }
+  const newTask = {
+    id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
+    title: title.trim(),
+    done: false,
+  };
+
+  tasks.push(newTask);
+
+  return res.status(201).json(newTask);
+});
+
 app.listen(3000, () => console.log("Server is running on port 3000"));
