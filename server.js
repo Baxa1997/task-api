@@ -56,4 +56,43 @@ app.post("/tasks", (req, res) => {
   return res.status(201).json(newTask);
 });
 
+app.put("/tasks/:taskId", (req, res) => {
+  const taskId = Number(req.params.taskId);
+  const {title, done} = req.body;
+  const task = tasks.find((t) => t.id === taskId);
+
+  if (!task) {
+    return res.status(404).json({error: "Task not found"});
+  }
+
+  if (title !== undefined) {
+    if (typeof title !== "string" || title.trim() === "") {
+      return res.status(400).json({error: "Title must be a non-empty string"});
+    }
+    task.title = title.trim();
+  }
+
+  if (done !== undefined) {
+    if (typeof done !== "boolean") {
+      res.status(400).json({error: "Done must be a boolean"});
+    }
+
+    task.done = done;
+  }
+
+  return res.json(task);
+});
+
+app.delete("/tasks/:taskId", (req, res) => {
+  const taskId = Number(req.params.taskId);
+  const index = tasks.findIndex((t) => t.id === taskId);
+
+  if (index === -1) {
+    return res.status(404).json({error: "Task not found"});
+  }
+
+  tasks.splice(index, 1);
+  return res.status(204).end();
+});
+
 app.listen(3000, () => console.log("Server is running on port 3000"));
