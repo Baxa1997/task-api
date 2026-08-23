@@ -13,20 +13,20 @@
   "paths": {
     "/": {
       "get": {
-        "summary": "API haqida ma'lumot",
+        "summary": "API info",
         "responses": {
           "200": {
-            "description": "API nomi va versiyasi"
+            "description": "The API name, version and available endpoints"
           }
         }
       }
     },
     "/health": {
       "get": {
-        "summary": "Server tirikligini tekshirish",
+        "summary": "Health check",
         "responses": {
           "200": {
-            "description": "Server ishlayapti"
+            "description": "The server is alive"
           }
         }
       }
@@ -51,7 +51,7 @@
         }
       },
       "post": {
-        "summary": "Yangi vazifa yaratish",
+        "summary": "Create a new task",
         "requestBody": {
           "required": true,
           "content": {
@@ -64,7 +64,7 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "example": "Sut sotib olish"
+                    "example": "Buy milk"
                   }
                 }
               }
@@ -73,7 +73,7 @@
         },
         "responses": {
           "201": {
-            "description": "Vazifa yaratildi",
+            "description": "Task created",
             "content": {
               "application/json": {
                 "schema": {
@@ -83,7 +83,7 @@
             }
           },
           "400": {
-            "description": "Title yo'q yoki bo'sh",
+            "description": "Title is missing or empty",
             "content": {
               "application/json": {
                 "schema": {
@@ -97,7 +97,7 @@
     },
     "/tasks/{taskId}": {
       "get": {
-        "summary": "Bitta vazifani id bo'yicha olish",
+        "summary": "Get a single task by id",
         "parameters": [
           {
             "name": "taskId",
@@ -106,12 +106,12 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Vazifaning id raqami"
+            "description": "The id of the task"
           }
         ],
         "responses": {
           "200": {
-            "description": "Topilgan vazifa",
+            "description": "The requested task",
             "content": {
               "application/json": {
                 "schema": {
@@ -121,7 +121,7 @@
             }
           },
           "404": {
-            "description": "Bunday id li vazifa yo'q",
+            "description": "No task exists with that id",
             "content": {
               "application/json": {
                 "schema": {
@@ -133,7 +133,7 @@
         }
       },
       "put": {
-        "summary": "Vazifani yangilash",
+        "summary": "Update a task",
         "parameters": [
           {
             "name": "taskId",
@@ -142,7 +142,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Vazifaning id raqami"
+            "description": "The id of the task"
           }
         ],
         "requestBody": {
@@ -154,7 +154,7 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "example": "Non sotib olish"
+                    "example": "Buy bread"
                   },
                   "done": {
                     "type": "boolean",
@@ -167,7 +167,7 @@
         },
         "responses": {
           "200": {
-            "description": "Yangilangan vazifa",
+            "description": "The updated task",
             "content": {
               "application/json": {
                 "schema": {
@@ -177,7 +177,7 @@
             }
           },
           "400": {
-            "description": "Noto'g'ri title yoki done qiymati",
+            "description": "Invalid title or done value",
             "content": {
               "application/json": {
                 "schema": {
@@ -187,7 +187,7 @@
             }
           },
           "404": {
-            "description": "Bunday id li vazifa yo'q",
+            "description": "No task exists with that id",
             "content": {
               "application/json": {
                 "schema": {
@@ -199,7 +199,7 @@
         }
       },
       "delete": {
-        "summary": "Vazifani o'chirish",
+        "summary": "Delete a task",
         "parameters": [
           {
             "name": "taskId",
@@ -208,15 +208,15 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Vazifaning id raqami"
+            "description": "The id of the task"
           }
         ],
         "responses": {
           "204": {
-            "description": "O'chirildi, javob tanasi bo'sh"
+            "description": "Task deleted, no content returned"
           },
           "404": {
-            "description": "Bunday id li vazifa yo'q",
+            "description": "No task exists with that id",
             "content": {
               "application/json": {
                 "schema": {
